@@ -6,4 +6,9 @@
 #include <stddef.h>
 #include<stdint.h>
 
+#define DEBUG_TRACE_EXECUTION
+
 #endif
+
+// In production, we want these debugging to be off
+// #undef DEBUG_TRACE_EXECUTION
