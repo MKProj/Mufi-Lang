@@ -26,7 +26,7 @@ void initVM();
 //> Deallocates the VM's resources
 void freeVM();
 //> Interprets and runs the code
-InterpretResult interpret(Chunk* chunk);
+InterpretResult interpret(const char* source);
 //> Pushes a value to the stack
 void push(Value value);
 //> Pops a value off the stack
