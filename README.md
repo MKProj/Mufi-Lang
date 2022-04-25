@@ -1,3 +1,5 @@
+<img src="logo.png" width="200px" height="200px">
+
 # Mufi Lang 
 
 > Note: This project is currently being developed and is changing quite often, it is not recommended 
