@@ -1,3 +1,5 @@
+![Mufi Logo](logo.png)
+
 # Mufi Lang 
 
 > Note: This project is currently being developed and is changing quite often, it is not recommended 
