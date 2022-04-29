@@ -12,10 +12,16 @@ typedef struct {
 
 Scanner scanner;
 
-void initScanner(){
+void initScanner(const char* source){
     scanner.start = source;
     scanner.current = source;
     scanner.line = 1;
+}
+
+static bool isAlpha(char c){
+    return (c >= 'a' && c <= 'z') ||
+            (c>= 'A' && c <= 'Z') ||
+            c == '_';
 }
 
 static bool isDigit(char c){
@@ -91,6 +97,52 @@ static void skipWhitespace(){
     }
 }
 
+static TokenType checkKeyword(int start, int length, const char* rest, TokenType type){
+    if(scanner.current - scanner.start == start + length && memcmp(scanner.start + start, rest, length) == 0){
+        return type;
+    }
+    return TOKEN_IDENTIFIER;
+}
+
+static TokenType identifierType(){
+    switch (scanner.start[0]) {
+        case 'a': return checkKeyword(1,2,"nd", TOKEN_AND);
+        case 'c': return checkKeyword(1, 4, "lass", TOKEN_CLASS);
+        case 'e': return checkKeyword(1, 3, "lse", TOKEN_ELSE);
+        case 'f':
+            if (scanner.current - scanner.start > 1){
+                switch (scanner.start[1]) {
+                    case 'a': return checkKeyword(2, 3, "lse", TOKEN_FALSE);
+                    case 'o': return checkKeyword(2, 1, "r", TOKEN_FOR);
+                    case 'u': return checkKeyword(2, 1, "n", TOKEN_FUN);
+                }
+            }
+            break;
+        case 'i': return checkKeyword(1, 1, "f", TOKEN_IF);
+        case 'l': return checkKeyword(1, 2, "et", TOKEN_LET);
+        case 'n': return checkKeyword(1, 2, "il", TOKEN_NIL);
+        case 'p': return checkKeyword(1, 4, "rint", TOKEN_PRINT);
+        case 's': if (scanner.current - scanner.start > 1){
+                switch (scanner.start[1]) {
+                    case 'e': return checkKeyword(2, 2, "lf", TOKEN_SELF);
+                    case 'u': return checkKeyword(2, 3, "per", TOKEN_SUPER);
+                }
+            }
+            break;
+        case 't': return checkKeyword(1, 3, "rue", TOKEN_TRUE);
+        case 'v': return checkKeyword(1, 2, "ar", TOKEN_VAR);
+    }
+
+
+    return TOKEN_IDENTIFIER;
+}
+
+
+static Token identifier(){
+    while(isAlpha(peek()) || isDigit(peek())) advance();
+    return makeToken(identifierType());
+}
+
 static Token number(){
     while(isDigit(peek())) advance();
     // Looking for double
@@ -100,10 +152,11 @@ static Token number(){
         while(isDigit(peek())) advance();
         return makeToken(TOKEN_DOUBLE);
     }
+    // if not we make it as an integer
     return makeToken(TOKEN_INT);
 }
 
-static void string(){
+static Token string(){
     while(peek() != '"' && !isAtEnd()){
         if(peek() == '\n') scanner.line++;
         advance();
@@ -120,6 +173,7 @@ Token scanToken(){
     if(isAtEnd()) return makeToken(TOKEN_EOF);
 
     char c = advance();
+    if(isAlpha(c)) return identifier();
     if(isDigit(c)) return number();
 
     switch(c){
@@ -145,5 +199,5 @@ Token scanToken(){
         case '"': return string();
     }
 
-    return errorToken("Unexpected character.")
+    return errorToken("Unexpected character.");
 }

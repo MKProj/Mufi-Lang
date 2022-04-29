@@ -20,7 +20,7 @@ static void repl(){
     VERSION();
     for(;;){
         printf("(mufi) >> ");
-        if (!fgets(line, sizeof(lines), stdin)){
+        if (!fgets(line, sizeof(line), stdin)){
             printf("\n");
             break;
         }
@@ -68,7 +68,7 @@ int main(int argc, const char* argv[]){
     if(argc == 1){
         repl();
     } else if (argc == 2){
-        if (argv[1] == 'v'){
+        if (*argv[1] == 'v'){
             VERSION();
         }
         runFile(argv[1]);
