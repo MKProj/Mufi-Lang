@@ -25,7 +25,7 @@ class IP{
         self.port = port;
     }
     connect(){
-        let message = "Connecting to " + this.address + "at port " + this.port;
+        let message = "Connecting to " + self.address + "at port " + self.port;
         print message;
     }
 }
