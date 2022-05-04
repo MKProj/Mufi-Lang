@@ -13,11 +13,43 @@
 - Python3
 - unzip
 
+> Note: Currently the `setup.py` script will only support Unix systems in super user mode. I do plan 
+> on releasing a stable on `winget` when ready.
+
 ## Doc Requirements 
 
 - Rust (Uses MDBook)
 - pdflatex 
 
+## Making Debug and Release Mode 
+
+For development purposes, keeping debug macros are useful to see 
+the op codes being emitted. As such, either you make the mufi binary in debug or 
+release mode using `make debug` or `make release`. These run a python script 
+that changes `src/common.h` to not `undef` (Debug) or does `undef` (Release) the `#define DEBUG_*` macros. 
+
+
+```shell
+# Debug mode 
+$ make debug 
+$ ./mufi 
+Version 0.1.0 (Baloo Release)
+(mufi) >> 2 + 2
+== code ==
+0000    1 OP_CONSTANT         0 '2'
+0002    | OP_CONSTANT         1 '2'
+0004    | OP_ADD
+0005    2 OP_RETURN
+
+0000    1 OP_CONSTANT         0 '2'
+4
+# Release mode 
+$ make release 
+$ ./mufi 
+Version 0.1.0 (Baloo Release)
+(mufi) >> 2 + 2
+4
+```
 ## Sample Code 
 ```
 class IP{

@@ -4,6 +4,9 @@
 
 #include "common.h"
 
+//> Allocates a new array on the heap
+#define ALLOCATE(type, count) \
+    ((type*)reallocate(NULL, 0, sizeof(type) * (count)))
 // To grow capacity we check if the capacity is less than 8,
 // if so, we make it 8, if not we multiply the old capacity by 2.
 //> Grows the capacity of dynamic arrays
