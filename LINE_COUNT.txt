@@ -1,0 +1,18 @@
+This file contains lines for each of the C programs and their headers.
+   43 src/chunk.c
+  287 src/compiler.c
+   67 src/debug.c
+   83 src/main.c
+   15 src/memory.c
+  202 src/scanner.c
+   57 src/value.c
+  164 src/vm.c
+   42 src/chunk.h
+   18 src/common.h
+    7 src/compiler.h
+   11 src/debug.h
+   24 src/memory.h
+   32 src/scanner.h
+   52 src/value.h
+   35 src/vm.h
+ 1139 total

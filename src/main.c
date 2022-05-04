@@ -13,7 +13,7 @@
 //> Codename of release
 #define CODENAME "Baloo"
 //> Declares the version
-#define VERSION() (printf("Mufi Version %d.%d.%d (%s Release)\n", MAJOR, MINOR, PATCH, CODENAME))
+#define VERSION() (printf("Version %d.%d.%d (%s Release)\n", MAJOR, MINOR, PATCH, CODENAME))
 //> Mufi read-eval-print-loop function
 static void repl(){
     char line [1024];
@@ -70,6 +70,7 @@ int main(int argc, const char* argv[]){
     } else if (argc == 2){
         if (*argv[1] == 'v'){
             VERSION();
+	    exit(0);
         }
         runFile(argv[1]);
     } else {

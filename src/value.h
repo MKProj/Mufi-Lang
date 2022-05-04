@@ -3,7 +3,35 @@
 
 #include "common.h"
 
-typedef double Value;
+typedef enum{
+    VAL_BOOL,
+    VAL_NIL,
+    VAL_INT,
+    VAL_DOUBLE
+}ValueType;
+
+typedef struct{
+    ValueType type;
+    union {
+        bool boolean;
+        double num_double;
+        int num_int;
+    } as;
+}Value;
+
+#define IS_BOOL(value) ((value).type == VAL_BOOL)
+#define IS_NIL(value)  ((value).type == VAL_NIL)
+#define IS_INT(value)   ((value).type == VAL_INT)
+#define IS_DOUBLE(value)  ((value).type == VAL_DOUBLE)
+
+#define AS_BOOL(value) ((value).as.boolean)
+#define AS_INT(value) ((value).as.num_int)
+#define AS_DOUBLE(value)  ((value).as.num_double)
+
+#define BOOL_VAL(value) ((Value){VAL_BOOL, {.boolean = value}})
+#define NIL_VAL         ((Value){VAL_NIL, {.num_int = 0}})
+#define INT_VAL(value) ((Value){VAL_INT, {.num_int = value}})
+#define DOUBLE_VAL(value) ((Value){VAL_DOUBLE, {.num_double = value}})
 
 typedef struct {
     int capacity;
@@ -11,6 +39,8 @@ typedef struct {
     Value* values;
 }ValueArray;
 
+//> Evaluates if two values are equal to each other
+bool valuesEqual(Value a, Value b);
 //> Creates a new empty value array
 void initValueArray(ValueArray* array);
 //> Appends to the end of a value array

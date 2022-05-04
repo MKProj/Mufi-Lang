@@ -1,3 +1,4 @@
+
 //> All common imports and preprocessor macros defined here 
 #ifndef mufi_common_h 
 #define mufi_common_h 
@@ -13,4 +14,5 @@
 #endif
 
 // In production, we want these debugging to be off
-// #undef DEBUG_TRACE_EXECUTION
+#undef DEBUG_TRACE_EXECUTION
+#undef DEBUG_PRINT_CODE

@@ -5,17 +5,18 @@
 > Note: This project is currently being developed and is changing quite often, it is not recommended 
 > to be installed until it reaches a stable state which is approximately coming in 1-2 months. 
 
+## Installation Requirements 
 
-## To build 
-Have `clang` installed, currently this guide will only be for linux systems. 
-```shell
-$ sudo apt install clang # to install clang 
-# clone the repo 
-$ git clone https://github.com/MKProj/Mufi-Lang
-$ cd Mufi-Lang
-$ make build 
-$ make install_linux # Not recommended to install yet 
-```
+- clang 
+- make
+- wget 
+- Python3
+- unzip
+
+## Doc Requirements 
+
+- Rust (Uses MDBook)
+- pdflatex 
 
 ## Sample Code 
 ```

@@ -127,6 +127,7 @@ static void binary();
 static void grouping();
 static void number();
 static void unary();
+static void literal();
 
 
 ParseRule rules[] = {
@@ -141,14 +142,14 @@ ParseRule rules[] = {
         [TOKEN_SEMICOLON] = {NULL, NULL, PREC_NONE},
         [TOKEN_STAR] = {NULL, binary, PREC_FACTOR},
         [TOKEN_SLASH] = {NULL, binary, PREC_FACTOR},
-        [TOKEN_BANG] = {NULL, NULL, PREC_NONE},
-        [TOKEN_BANG_EQUAL] = {NULL, NULL, PREC_NONE},
+        [TOKEN_BANG] = {unary, NULL, PREC_NONE},
+        [TOKEN_BANG_EQUAL] = {NULL, binary, PREC_EQUALITY},
         [TOKEN_EQUAL] = {NULL, NULL, PREC_NONE},
-        [TOKEN_EQUAL_EQUAL] = {NULL, NULL, PREC_NONE},
-        [TOKEN_GREATER] = {NULL, NULL, PREC_NONE},
-        [TOKEN_GREATER_EQUAL] = {NULL, NULL, PREC_NONE},
-        [TOKEN_LESS] = {NULL, NULL, PREC_NONE},
-        [TOKEN_LESS_EQUAL] = {NULL, NULL, PREC_NONE},
+        [TOKEN_EQUAL_EQUAL] = {NULL, binary, PREC_EQUALITY},
+        [TOKEN_GREATER] = {NULL, binary, PREC_COMPARISON},
+        [TOKEN_GREATER_EQUAL] = {NULL, binary, PREC_COMPARISON},
+        [TOKEN_LESS] = {NULL, binary, PREC_COMPARISON},
+        [TOKEN_LESS_EQUAL] = {NULL, binary, PREC_COMPARISON},
         [TOKEN_IDENTIFIER] = {NULL, NULL, PREC_NONE},
         [TOKEN_STRING] = {NULL, NULL, PREC_NONE},
         [TOKEN_INT] = {number, NULL, PREC_NONE},
@@ -156,18 +157,18 @@ ParseRule rules[] = {
         [TOKEN_AND] = {NULL, NULL, PREC_NONE},
         [TOKEN_CLASS] = {NULL, NULL, PREC_NONE},
         [TOKEN_ELSE] = {NULL, NULL, PREC_NONE},
-        [TOKEN_FALSE] = {NULL, NULL, PREC_NONE},
+        [TOKEN_FALSE] = {literal, NULL, PREC_NONE},
         [TOKEN_FOR] = {NULL, NULL, PREC_NONE},
         [TOKEN_FUN] = {NULL, NULL, PREC_NONE},
         [TOKEN_IF] = {NULL, NULL, PREC_NONE},
         [TOKEN_LET] = {NULL, NULL, PREC_NONE},
-        [TOKEN_NIL] = {NULL, NULL, PREC_NONE},
+        [TOKEN_NIL] = {literal, NULL, PREC_NONE},
         [TOKEN_OR] = {NULL, NULL, PREC_NONE},
         [TOKEN_PRINT] = {NULL, NULL, PREC_NONE},
         [TOKEN_RETURN] = {NULL, NULL, PREC_NONE},
         [TOKEN_SUPER] = {NULL, NULL, PREC_NONE},
         [TOKEN_SELF] = {NULL, NULL, PREC_NONE},
-        [TOKEN_TRUE] = {NULL, NULL, PREC_NONE},
+        [TOKEN_TRUE] = {literal, NULL, PREC_NONE},
         [TOKEN_VAR] = {NULL, NULL, PREC_NONE},
         [TOKEN_WHILE] = {NULL, NULL, PREC_NONE},
         [TOKEN_ERROR] = {NULL, NULL, PREC_NONE},
@@ -199,6 +200,18 @@ static void binary(){
     ParseRule* rule = getRule(operatorType);
     parsePrecedence((Precedence)(rule->precedence + 1));
     switch (operatorType){
+        case TOKEN_BANG_EQUAL:
+            emitBytes(OP_EQUAL, OP_NOT); break;
+        case TOKEN_EQUAL_EQUAL:
+            emitByte(OP_EQUAL); break;
+        case TOKEN_GREATER:
+            emitByte(OP_GREATER); break;
+        case TOKEN_GREATER_EQUAL:
+            emitBytes(OP_LESS, OP_EQUAL); break;
+        case TOKEN_LESS:
+            emitByte(OP_LESS); break;
+        case TOKEN_LESS_EQUAL:
+            emitBytes(OP_GREATER, OP_EQUAL); break;
         case TOKEN_PLUS:
             emitByte(OP_ADD); break;
         case TOKEN_MINUS:
@@ -209,6 +222,18 @@ static void binary(){
             emitByte(OP_DIVIDE); break;
         default:
             return; // unreachable
+    }
+}
+
+static void literal(){
+    switch(parser.previous.type){
+        case TOKEN_FALSE:
+            emitByte(OP_FALSE);break;
+        case TOKEN_TRUE:
+            emitByte(OP_TRUE);break;
+        case TOKEN_NIL:
+            emitByte(OP_NIL);break;
+        default: return; // unreachable
     }
 }
 
@@ -224,10 +249,10 @@ static void grouping(){
 static void number(){
     if(parser.previous.type == TOKEN_INT){
         int value = atoi(parser.previous.start);
-        emitConstant((double)value);
+        emitConstant(INT_VAL(value));
     } else {
         double value = strtod(parser.previous.start, NULL);
-        emitConstant(value);
+        emitConstant(DOUBLE_VAL(value));
     }
 }
 
@@ -239,6 +264,8 @@ static void unary(){
 
     //Emit the operator instruction
     switch(operatorType){
+        case TOKEN_BANG:
+            emitByte(OP_NOT); break;
         case TOKEN_MINUS:
             emitByte(OP_NEGATE); break;
         default: return; // Unreachable
