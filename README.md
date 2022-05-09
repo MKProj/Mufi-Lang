@@ -2,6 +2,8 @@
 
 # Mufi Lang 
 
+[Mufi Roadmap Plan](https://www.notion.so/mkproj/a0ce104710f546d5aea1b0ec70995b73?v=ef7b2a18763b4e228c9f389f765965b1)
+
 > Note: This project is currently being developed and is changing quite often, it is not recommended 
 > to be installed until it reaches a stable state which is approximately coming in 1-2 months. 
 

@@ -1,0 +1,19 @@
+* 7234d02 - (HEAD -> master, origin/master) Added strings (5 days ago) <Mustafif>
+* 46dd4dd - Update (5 days ago) <Mustafif>
+* ecb0d29 - Added conditional operators (5 days ago) <Mustafif>
+* 8650555 - Work on basic arithmetic finished (10 days ago) <Mustafif>
+*   424d4c7 - Merge branch 'master' of https://github.com/MKProj/Mufi-Lang (11 days ago) <Mustafif>
+|\  
+| * f94404c - Fixed sample code mistake of 'this' instead of 'self' (11 days ago) <Mustafif>
+* | 4194bab - Further work in compiler (11 days ago) <Mustafif>
+|/  
+*   0ce3432 - Merge branch 'master' of https://github.com/MKProj/Mufi-Lang (2 weeks ago) <Mustafif>
+|\  
+| * b93b278 - Update README.md (2 weeks ago) <Mustafif>
+| * 21fcc4c - Add files via upload (2 weeks ago) <Mustafif>
+| * dd2e415 - Update README.md (2 weeks ago) <Mustafif>
+* | 7759432 - Further update to token scanning (2 weeks ago) <Mustafif>
+|/  
+* eed70e3 - Adding support for tokens (2 weeks ago) <Mustafif>
+* 1fbf7bc - Added implementations of the vm (2 weeks ago) <Mustafif>
+* c6746bd - First commit (3 weeks ago) <Mustafif>

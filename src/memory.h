@@ -3,7 +3,7 @@
 #define mufi_memory_h 
 
 #include "common.h"
-
+#include "object.h"
 //> Allocates a new array on the heap
 #define ALLOCATE(type, count) \
     ((type*)reallocate(NULL, 0, sizeof(type) * (count)))
@@ -12,6 +12,9 @@
 //> Grows the capacity of dynamic arrays
 #define GROW_CAPACITY(capacity) \
     ((capacity) < 8 ? 8: (capacity) * 2)
+
+//> Reallocates a pointer to 0 or freeing the pointer by shrinking
+#define FREE(type, pointer)     reallocate(pointer, sizeof(type), 0)
 
 // Knowing what the new capacity is, we can also grow an array to the same capacity
 //> Grows the array with a desired capacity
@@ -25,4 +28,6 @@
 
 //> Used to reallocate memory for arrays
 void* reallocate(void* pointer, size_t oldSize, size_t newSize);
+//> Frees objects (heap allocated values)
+void freeObjects();
 #endif

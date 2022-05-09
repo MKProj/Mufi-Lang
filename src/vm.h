@@ -4,6 +4,7 @@
 
 #include "chunk.h"
 #include "value.h"
+#include "object.h"
 
 #define STACK_MAX 256
 
@@ -13,6 +14,7 @@ typedef struct {
     uint8_t* ip; // Instruction pointer
     Value stack[STACK_MAX]; // The virtual machine's stack
     Value* stackTop; // Top of the stack, always point to where the next item should be pushed
+    Obj* objects; // Head of the object linked list
 }VM;
 //> Error result of virtual machine's interpretation
 typedef enum {
@@ -20,6 +22,9 @@ typedef enum {
     INTERPRET_COMPILE_ERROR,
     INTERPRET_RUNTIME_ERROR,
 }InterpretResult;
+
+// Global vm variable
+extern VM vm;
 
 //> Initializes the VM
 void initVM();

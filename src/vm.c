@@ -1,9 +1,12 @@
 #include <stdarg.h>
 #include <stdio.h>
+#include <string.h>
 #include "common.h"
 #include "compiler.h"
 #include "vm.h"
 #include "debug.h"
+#include "memory.h"
+#include "object.h"
 
 // Global vm
 VM vm;
@@ -29,11 +32,12 @@ static void runtimeError(const char* format, ...){
 // Initializes the virtual machine
 void initVM(){
     resetStack();
+    vm.objects = NULL;
 }
 
 // Frees the virtual machine
 void freeVM(){
-
+    freeObjects();
 }
 
 // Pops value off of the stack
@@ -55,6 +59,19 @@ static bool isFalsey(Value value){
     return IS_NIL(value) || (IS_BOOL(value) && !AS_BOOL(value));
 }
 
+static void concatenate(){
+    ObjString* b = AS_STRING(pop());
+    ObjString* a = AS_STRING(pop());
+    int length = a->length + b->length;
+    char* chars = ALLOCATE(char, length + 1);
+    memcpy(chars, a->chars, a->length);
+    memcpy(chars + a->length, b->chars, b->length);
+    chars[length] = '\0';
+
+    ObjString* result = takeString(chars, length);
+    push(OBJ_VAL(result));
+}
+
 // runs the virtual machine
 static InterpretResult run(){
 #define READ_BYTE() (*vm.ip++) // Reads each instruction
@@ -69,11 +86,7 @@ static InterpretResult run(){
             double b = AS_DOUBLE(pop());         \
             double a = AS_DOUBLE(pop());                                                             \
             push(DOUBLE_VAL(a op b));      \
-       }  else if (IS_BOOL(peek(0)) && IS_BOOL(peek(1))){                                      \
-            bool b = AS_BOOL(pop());                                                         \
-            bool a = AS_BOOL(pop());                                                            \
-           push(BOOL_VAL(a op b));\
-       }        \
+       }       \
        else {   \
               runtimeError("Operands must be either both integer or both double numbers.");                \
                return INTERPRET_RUNTIME_ERROR;       \
@@ -116,7 +129,14 @@ static InterpretResult run(){
                 BINARY_OP_COMPARISON(>); break;
             case OP_LESS:
                 BINARY_OP_COMPARISON(<); break;
-            case OP_ADD: BINARY_OP(+); break;
+            case OP_ADD: {
+                if (IS_STRING(peek(0)) && IS_STRING(peek(1))) {
+                    concatenate();
+                } else {
+                    BINARY_OP(+);
+                }
+            }
+            break;
             case OP_SUBTRACT: BINARY_OP(-); break;
             case OP_MULTIPLY: BINARY_OP(*); break;
             case OP_DIVIDE: BINARY_OP(/); break;
