@@ -33,10 +33,12 @@ static void runtimeError(const char* format, ...){
 void initVM(){
     resetStack();
     vm.objects = NULL;
+    initTable(&vm.strings);
 }
 
 // Frees the virtual machine
 void freeVM(){
+    freeTable(&vm.strings);
     freeObjects();
 }
 

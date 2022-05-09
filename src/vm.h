@@ -5,6 +5,7 @@
 #include "chunk.h"
 #include "value.h"
 #include "object.h"
+#include "table.h"
 
 #define STACK_MAX 256
 
@@ -14,6 +15,7 @@ typedef struct {
     uint8_t* ip; // Instruction pointer
     Value stack[STACK_MAX]; // The virtual machine's stack
     Value* stackTop; // Top of the stack, always point to where the next item should be pushed
+    Table strings; // Hash table of all strings in heap
     Obj* objects; // Head of the object linked list
 }VM;
 //> Error result of virtual machine's interpretation
