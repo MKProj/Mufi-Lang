@@ -156,9 +156,13 @@ static InterpretResult run(){
                     push(DOUBLE_VAL(-AS_DOUBLE(pop())));
                 }
                 break;
-            case OP_RETURN: {
+            case OP_PRINT: {
                 printValue(pop());
                 printf("\n");
+                break;
+            }
+            case OP_RETURN: {
+                // exits interpreter
                 return INTERPRET_OK;
             }
         }
