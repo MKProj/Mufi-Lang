@@ -15,6 +15,7 @@ typedef struct {
     uint8_t* ip; // Instruction pointer
     Value stack[STACK_MAX]; // The virtual machine's stack
     Value* stackTop; // Top of the stack, always point to where the next item should be pushed
+    Table globals; // Hash table of all global variables inside the program
     Table strings; // Hash table of all strings in heap
     Obj* objects; // Head of the object linked list
 }VM;
