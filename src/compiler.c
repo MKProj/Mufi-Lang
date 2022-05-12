@@ -296,6 +296,7 @@ static void varDeclaration() {
 
     defineVariable(global);
 }
+
 static void expressionStatement() {
     expression();
     consume(TOKEN_SEMICOLON, "Expect ';' after expression.");
@@ -332,7 +333,10 @@ static void synchronize() {
 static void declaration() {
     if (match(TOKEN_VAR)) {
         varDeclaration();
-    } else {
+    } else if (match(TOKEN_LET)){
+        letDeclaration();
+    }
+    else {
         statement();
     }
 
