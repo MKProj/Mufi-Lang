@@ -333,8 +333,6 @@ static void synchronize() {
 static void declaration() {
     if (match(TOKEN_VAR)) {
         varDeclaration();
-    } else if (match(TOKEN_LET)){
-        letDeclaration();
     }
     else {
         statement();
