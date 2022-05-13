@@ -1,0 +1,12 @@
+[book]
+authors = ["Mustafif"]
+language = "en"
+multilingual = false
+src = "src"
+title = "Mufi Standard Library Documentation"
+description = "Documentation about the Mufi Builtin Standard Library. These functions are built to provide some type of FFI experience of using C libraries."
+[output.html]
+[output.man]
+filename = "mufi.man"
+output-dir = "man3"
+[output.pdf]

@@ -16,3 +16,5 @@ git_add:
 version: 
 	make build 
 	./mufi version > VERSION
+deb_dependency:
+	sudo apt-get install -y gcc dpkg-dev gpg
