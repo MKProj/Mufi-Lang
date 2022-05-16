@@ -64,30 +64,31 @@ Value sumNative(int argCount, Value* args){
     }
 }
 Value productNative(int argCount, Value* args){
-    double doubArgs[argCount];
+    double product = 1;
     // checks the type for product
     ValueType type = args[0].type;
     if(type != VAL_INT && type != VAL_DOUBLE){
         fprintf(stderr, "All values in product() must be double or int.");
         return NIL_VAL;
     }
-    for(int i=0; i < argCount; i++){
-        if(args[i].type != type){
+    for(int i=0; i < argCount; i++) {
+        if (args[i].type != type) {
             fprintf(stderr, "All values in product() must be the same.");
             return NIL_VAL;
         }
-        if (args[i].type == VAL_DOUBLE){
-            doubArgs[i] = AS_DOUBLE(args[i]);
+        if(type == VAL_INT){
+            product *= (double) AS_INT(args[i]);
         } else {
-            doubArgs[i] = (double) AS_INT(args[i]);
+            product *= AS_DOUBLE(args[i]);
         }
     }
-    double p = product((double*)doubArgs);
-    if(type ==VAL_INT){
-        return INT_VAL((int)p);
+
+    if(type == VAL_INT){
+        return INT_VAL(product);
     } else {
-        return DOUBLE_VAL(p);
+        return DOUBLE_VAL(product);
     }
+
 }
 Value logNative(int argCount, Value* args){
     if(argCount != 2){

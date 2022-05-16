@@ -7,21 +7,10 @@
 > Note: This project is currently being developed and is changing quite often, it is not recommended 
 > to be installed until it reaches a stable state which is approximately coming in 1-2 months. 
 
+> This project is under the [GPLv2 License](./LICENSE.md)
 ## Installation Requirements 
 
-- clang 
-- make
-- wget 
-- Python3
-- unzip
-
-> Note: Currently the `setup.py` script will only support Unix systems in super user mode. I do plan 
-> on releasing a stable on `winget` when ready.
-
-## Doc Requirements 
-
-- Rust (Uses MDBook)
-- pdflatex 
+A list of installation dependencies will be available once ready.
 
 ## Making Debug and Release Mode 
 
@@ -52,27 +41,25 @@ Version 0.1.0 (Baloo Release)
 (mufi) >> 2 + 2
 4
 ```
-## Sample Code 
-```
-class IP{
-    init(address, port){
-        self.address = address;
-        self.port = port;
-    }
-    connect(){
-        let message = "Connecting to " + self.address + "at port " + self.port;
-        print message;
-    }
-}
 
-let ip = IP("127.0.0.1", "45675");
-ip.connect();
-```
+## Doc Plans 
+The project is planned to contain a documentation for the `stdlib` and 
+a `guide` to the language for the users. 
 
-## Plans after First Release 
-- Project Manager 
-- Documentation books 
-- Standard Library (built in)
-- Figure out how to do imports 
-- Some type of continuous integration 
-- Support to Mac and Windows in guide 
+The `guide` will be available as: 
+
+- `pdf`
+- `web/HTML`
+
+The `stdlib` doc will be available as: 
+
+- `pdf`
+- `web/HTML`
+- `man`
+
+---
+## Credits 
+A lot of this compiler is built under the guidance of *Robert's Nystroms Crafting Interpreters*. This 
+book provides great theory and application to building interpreters and bytecode compilers. I highly recommend 
+this book if you're interested in language hacking, and you can check more out 
+at [www.craftinginterpreters.com](http://www.craftinginterpreters.com).

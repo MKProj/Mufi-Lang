@@ -1,7 +1,7 @@
-name = "Conversion"
+name = "conv"
 [[Function]]
 name = "as_double"
-description = """as_double(Value value) => double
+description = """`as_double(Value value) => double` <br>
 This function takes in a value and tries to convert it to a double.
 If a value is passed in that cannot be converted, the function will return -1.
 """
@@ -14,7 +14,7 @@ print as_double(s); // 23.2
 
 [[Function]]
 name = "as_int"
-description = """as_int(Value value) => int
+description = """`as_int(Value value) => int` <br>
 This function takes in a value and tries to convert it to an integer.
 If a value is passed in that cannot be converted, the function will return -1;
 """
