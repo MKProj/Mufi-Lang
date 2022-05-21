@@ -1,4 +1,4 @@
-% Mufi(1) mufi v0.1.0
+% Mufi(1) mufi v0.1.0 [Baloo Release]
 % Mustafif Khan
 % May 2022
 

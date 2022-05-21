@@ -1,5 +1,0 @@
-fun return_var(a){
-    return a;
-}
-
-print return_var(3);

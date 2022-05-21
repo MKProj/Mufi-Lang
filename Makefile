@@ -1,9 +1,9 @@
 STDLIB =  -lm src/stdlib/stdlib.c -lm src/stdlib/math_.c -lm src/stdlib/conv.c -lm src/stdlib/os.c -lm src/stdlib/files.c -lm src/stdlib/string.c
 debug:
-	python3 debug_prod.py debug
+	python3 utils/debug_prod.py debug
 	make build
 release:
-	python3 debug_prod.py release
+	python3 utils/debug_prod.py release
 	make build
 build:
 	clang src/*.c $(STDLIB) -Werror -Wall -std=c99 -o mufi
@@ -19,3 +19,8 @@ git_add:
 version:
 	make build
 	./mufi version > VERSION
+install:
+	make release
+	mv mufi /usr/local/bin
+test_mufi:
+	python3 utils/test.py

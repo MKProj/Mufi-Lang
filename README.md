@@ -42,6 +42,10 @@ Version 0.1.0 (Baloo Release)
 4
 ```
 
+## Testing 
+Test programs are placed inside in `test`, to test all these programs you can run `make test_mufi` that will 
+execute the simple `utils/test.py` program.
+
 ## Doc Plans 
 The project is planned to contain a documentation for the `stdlib` and 
 a `guide` to the language for the users. 
