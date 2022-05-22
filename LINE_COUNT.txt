@@ -10,7 +10,7 @@ This file contains lines for each of the C programs and their headers.
    65 src/value.c
   411 src/vm.c
    56 src/chunk.h
-   16 src/common.h
+   20 src/common.h
     9 src/compiler.h
    11 src/debug.h
    32 src/memory.h
@@ -31,4 +31,4 @@ This file contains lines for each of the C programs and their headers.
     8 src/stdlib/os.h
    44 src/stdlib/stdlib.h
    14 src/stdlib/string.h
- 3004 total
+ 3008 total
