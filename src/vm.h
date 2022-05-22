@@ -26,6 +26,7 @@ typedef struct {
     Value* stackTop; // Top of the stack, always point to where the next item should be pushed
     Table globals; // Hash table of all global variables inside the program
     Table strings; // Hash table of all strings in heap
+    ObjUpvalue* openUpvalues; // open up values inside of closures
     Obj* objects; // Head of the object linked list
 }VM;
 //> Error result of virtual machine's interpretation
