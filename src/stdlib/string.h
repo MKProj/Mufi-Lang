@@ -6,8 +6,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-char charAt(char* str, int index);
-int len(char* str);
+
+char* char_at(char* str, int index);
+int len_str(char* str);
 char* substr(char* str, int start, int end);
 char* trim(char* str);
 

@@ -55,6 +55,12 @@ static void defineNative(const char* name, NativeFn function) {
 void initVM(){
     resetStack();
     vm.objects = NULL;
+    vm.bytesAllocated = 0;
+    vm.nextGC = 1024*1024;
+    vm.grayCount = 0;
+    vm.grayCapacity = 0;
+    vm.grayStack = NULL;
+
     initTable(&vm.globals);
     initTable(&vm.strings);
 
@@ -64,7 +70,7 @@ void initVM(){
     defineNative("product", productNative);
     defineNative("log", logNative);
     defineNative("file_write", fileWriteNative);
-    //defineNative("file_read", fileReadNative);
+    defineNative("file_read", fileReadNative);
     defineNative("file_append", fileAppendNative);
     defineNative("new_dir", newDirNative);
     defineNative("cmd", cmdNative);
@@ -72,13 +78,11 @@ void initVM(){
     defineNative("sys_exit", sysExitNative);
     defineNative("as_double", asDoubleNative);
     defineNative("as_int", asIntNative);
-    /*
     defineNative("as_str", asStrNative);
     defineNative("char_at", charAtNative);
     defineNative("len", lenNative);
-    defineNative("sub_str", subStrNative);
     defineNative("trim", trimNative);
-     */
+    defineNative("sub_str", subStrNative);
 }
 
 // Frees the virtual machine
@@ -124,8 +128,23 @@ static bool call(ObjClosure* closure, int argCount) {
 static bool callValue(Value callee, int argCount) {
     if (IS_OBJ(callee)) {
         switch (OBJ_TYPE(callee)) {
+            case OBJ_BOUND_METHOD: {
+                ObjBoundMethod* bound = AS_BOUND_METHOD(callee);
+                vm.stackTop[-argCount-1] = bound->receiver;
+                return call(bound->method, argCount);
+            }
+            case OBJ_CLASS:{
+                ObjClass* klass = AS_CLASS(callee);
+                vm.stackTop[-argCount - 1] = OBJ_VAL(newInstance(klass));
+                return true;
+            }
             case OBJ_CLOSURE:
                 return call(AS_CLOSURE(callee), argCount);
+            case OBJ_INSTANCE: {
+                ObjClass* klass = AS_CLASS(callee);
+                vm.stackTop[-argCount - 1] = OBJ_VAL(newInstance(klass));
+                return true;
+            }
             case OBJ_NATIVE: {
                 NativeFn native = AS_NATIVE(callee);
                 Value result = native(argCount, vm.stackTop - argCount);
@@ -139,6 +158,19 @@ static bool callValue(Value callee, int argCount) {
     }
     runtimeError("Can only call functions and classes.");
     return false;
+}
+
+static bool isbindMethod(ObjClass* klass, ObjString* name){
+    Value method;
+    if(!tableGet(&klass->methods, name, &method)){
+        runtimeError("Undefined property '%s'.", name->chars);
+        return false;
+    }
+
+    ObjBoundMethod* bound = newBoundMethod(peek(0), AS_CLOSURE(method));
+    pop();
+    push(OBJ_VAL(bound));
+    return true;
 }
 
 static ObjUpvalue* captureUpvalue(Value* local){
@@ -173,13 +205,20 @@ static void closeUpvalues(Value* last){
     }
 }
 
+static void defineMethod(ObjString* name){
+    Value method = peek(0);
+    ObjClass* klass = AS_CLASS(peek(1));
+    tableSet(&klass->methods, name, method);
+    pop();
+}
+
 static bool isFalsey(Value value){
     return IS_NIL(value) || (IS_BOOL(value) && !AS_BOOL(value));
 }
 
 static void concatenate(){
-    ObjString* b = AS_STRING(pop());
-    ObjString* a = AS_STRING(pop());
+    ObjString* b = AS_STRING(peek(0));
+    ObjString* a = AS_STRING(peek(1));
     int length = a->length + b->length;
     char* chars = ALLOCATE(char, length + 1);
     memcpy(chars, a->chars, a->length);
@@ -187,6 +226,8 @@ static void concatenate(){
     chars[length] = '\0';
 
     ObjString* result = takeString(chars, length);
+    pop();
+    pop();
     push(OBJ_VAL(result));
 }
 
@@ -312,6 +353,39 @@ static InterpretResult run(){
                 *frame->closure->upvalues[slot]->location = peek(0);
                 break;
             }
+            case OP_GET_PROPERTY: {
+                if(!IS_INSTANCE(peek(0))) {
+                    runtimeError("Only instances have properties.");
+                    return INTERPRET_RUNTIME_ERROR;
+                }
+
+                ObjInstance* instance = AS_INSTANCE(peek(0));
+                ObjString* name = READ_STRING();
+
+                Value value;
+                if(tableGet(&instance->fields, name, &value)) {
+                    pop(); // Instance
+                    push(value); //puts the values on top of the stack
+                    break;
+                }
+                if(!isbindMethod(instance->klass, name)) {
+                    return INTERPRET_RUNTIME_ERROR;
+                }
+
+                break;
+            }
+            case OP_SET_PROPERTY: {
+                if(!IS_INSTANCE(peek(1))) {
+                    runtimeError("Only instances have fields.");
+                    return INTERPRET_RUNTIME_ERROR;
+                }
+                ObjInstance* instance = AS_INSTANCE(peek(1));
+                tableSet(&instance->fields, READ_STRING(), peek(0));
+                Value value = pop();
+                pop();
+                push(value);
+                break;
+            }
             case OP_EQUAL: {
                 Value b = pop();
                 Value a = pop();
@@ -417,6 +491,14 @@ static InterpretResult run(){
                 vm.stackTop = frame->slots;
                 push(result);
                 frame = &vm.frames[vm.frameCount - 1];
+                break;
+            }
+            case OP_CLASS: {
+                push(OBJ_VAL(newClass(READ_STRING())));
+                break;
+            }
+            case OP_METHOD: {
+                defineMethod(READ_STRING());
                 break;
             }
         }

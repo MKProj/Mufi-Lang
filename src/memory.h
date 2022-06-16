@@ -28,6 +28,12 @@
 
 //> Used to reallocate memory for arrays
 void* reallocate(void* pointer, size_t oldSize, size_t newSize);
+//> Marks a heap-allocated object
+void markObject(Obj* object);
+//> Marks values for the garbage collector
+void markValue(Value value);
+//> Used for the garbage collector to manage memory
+void collectGarbage();
 //> Frees objects (heap allocated values)
 void freeObjects();
 #endif

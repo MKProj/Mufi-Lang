@@ -21,26 +21,14 @@ that changes `src/common.h` to not `undef` (Debug) or does `undef` (Release) the
 
 
 ```shell
-# Debug mode 
-$ make debug 
-$ ./mufi 
-Version 0.1.0 (Baloo Release)
-(mufi) >> 2 + 2
-== code ==
-0000    1 OP_CONSTANT         0 '2'
-0002    | OP_CONSTANT         1 '2'
-0004    | OP_ADD
-0005    2 OP_RETURN
-
-0000    1 OP_CONSTANT         0 '2'
-4
-# Release mode 
+$ make debug
+$ ./mufi
+# or 
 $ make release 
-$ ./mufi 
-Version 0.1.0 (Baloo Release)
-(mufi) >> 2 + 2
-4
+$ ./mufi
 ```
+
+> **Note:** Debug mode does show all the logging information on the Garbage Collector (`DEBUG_LOG_GC` & `DEBUG_STRESS_GC`)
 
 ## Testing 
 Test programs are placed inside in `test`, to test all these programs you can run `make test_mufi` that will 

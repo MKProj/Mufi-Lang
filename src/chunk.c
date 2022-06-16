@@ -2,7 +2,7 @@
 
 #include "chunk.h"
 #include "memory.h"
-
+#include "vm.h"
 // Creates a new empty chunk
 void initChunk(Chunk* chunk){
     // When initializing, everything starts at 0
@@ -39,6 +39,8 @@ void writeChunk(Chunk* chunk, uint8_t byte, int line ){
 
 // Adds a constant to the chunk's constant pool
 int addConstant(Chunk* chunk, Value value){
+    push(value);
     writeValueArray(&chunk->constants, value);
+    pop();
     return chunk->constants.count - 1; // returns position of constant
 }

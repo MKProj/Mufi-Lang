@@ -56,7 +56,7 @@ int asInt(Value value){
     }
 }
 
-
+/*
 char* asStr(Value value){
     switch (value.type) {
         case VAL_INT: {
@@ -92,3 +92,4 @@ char* asStr(Value value){
         }
     }
 }
+*/

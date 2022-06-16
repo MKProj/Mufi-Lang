@@ -13,6 +13,7 @@
 #include "../value.h"
 #include "../object.h"
 
+
 //> Math native functions
 Value powNative(int argCount, Value* args);
 Value moduloNative(int argCount, Value* args);
@@ -32,14 +33,14 @@ Value sysExitNative(int argCount, Value* args);
 //> Conversion native functions
 Value asDoubleNative(int argCount, Value* args);
 Value asIntNative(int argCount, Value* args);
-//Value asStrNative(int argCount, Value* args);
-/*
+Value asStrNative(int argCount, Value* args);
+
 //> String functions
 Value charAtNative(int argCount, Value* args);
 Value lenNative(int argCount, Value* args);
 Value subStrNative(int argCount, Value* args);
 Value trimNative(int argCount, Value* args);
-*/
+
 
 
 #endif

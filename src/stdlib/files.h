@@ -5,7 +5,7 @@
 #include <stdlib.h>
 
 void fileWrite(const char* path, const char* data);
-char* fileRead(const char* path);
+const char* read_file(const char* path);
 void fileAppend(const char* path, const char* data);
 void newDir(const char* path);
 

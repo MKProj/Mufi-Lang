@@ -28,25 +28,6 @@ void fileWrite(const char* path, const char* data){
         exit(1);
     }
 }
-char* fileRead(const char* path){
-    if(fileExists(path)){
-        // read file
-        FILE* file;
-        file = fopen(path, "r");
-        char* buffer = NULL;
-        if(file == NULL){
-            fprintf(stderr, "Error reading file '%s'.", path);
-            fclose(file);
-            exit(1);
-        }
-        fscanf(file, "%s", buffer);
-        fclose(file);
-        return buffer;
-    } else {
-        fprintf(stderr, "Path '%s' doesn't exist.", path);
-        exit(1);
-    }
-}
 void fileAppend(const char* path, const char* data){
     if(fileExists(path)){
         // write to file

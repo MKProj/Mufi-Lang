@@ -27,7 +27,12 @@ typedef struct {
     Table globals; // Hash table of all global variables inside the program
     Table strings; // Hash table of all strings in heap
     ObjUpvalue* openUpvalues; // open up values inside of closures
+    size_t bytesAllocated; // bytes allocated by the vm
+    size_t nextGC; // threshold for the garbage collector to be invoked
     Obj* objects; // Head of the object linked list
+    int grayCount; // Count of objects marked grey
+    int grayCapacity; // Capacity of the grayStack
+    Obj** grayStack; // Array of objects
 }VM;
 //> Error result of virtual machine's interpretation
 typedef enum {
