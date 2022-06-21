@@ -1,4 +1,10 @@
 #include "stdlib.h"
+#include "math_.h"
+#include "string.h"
+#include "conv.h"
+#include "os.h"
+#include "files.h"
+#include <time.h>
 
 Value powNative(int argCount, Value* args){
     if(argCount != 2){
@@ -55,11 +61,14 @@ Value sumNative(int argCount, Value* args){
             doubArgs[i] = (double) AS_INT(args[i]);
         }
     }
-    double s = sum((double*)doubArgs);
+    double sum = 0;
+    for(int i = 0; i < argCount; i++){
+        sum += doubArgs[i];
+    }
     if(type ==VAL_INT){
-        return INT_VAL((int)s);
+        return INT_VAL((int)sum);
     } else {
-        return DOUBLE_VAL(s);
+        return DOUBLE_VAL(sum);
     }
 }
 Value productNative(int argCount, Value* args){
@@ -103,7 +112,7 @@ Value logNative(int argCount, Value* args){
 
 Value fileWriteNative(int argCount, Value* args){
     if(args[0].type == args[1].type && IS_STRING(args[0])){
-        fileWrite(AS_CSTRING(args[0]), AS_CSTRING(args[1]));
+        file_write(AS_CSTRING(args[0]), AS_CSTRING(args[1]));
         return INT_VAL(0);
     } else {
         return INT_VAL(-1);
@@ -126,7 +135,7 @@ Value fileReadNative(int argCount, Value* args){
 }
 Value fileAppendNative(int argCount, Value* args){
     if(args[0].type == args[1].type && IS_STRING(args[0])){
-        fileAppend(AS_CSTRING(args[0]), AS_CSTRING(args[1]));
+        file_append(AS_CSTRING(args[0]), AS_CSTRING(args[1]));
         return INT_VAL(0);
     } else {
         return INT_VAL(-1);
@@ -138,7 +147,7 @@ Value newDirNative(int argCount, Value* args){
         return INT_VAL(-1);
     }
     if(IS_STRING(args[0])) {
-        newDir(AS_CSTRING(args[0]));
+        new_dir(AS_CSTRING(args[0]));
         return INT_VAL(0);
     } else {
         fprintf(stderr, "new_dir() only accepts a string path.");
@@ -164,7 +173,7 @@ Value clockNative(int argCount, Value* args){
         fprintf(stderr, "clock() doesn't accept any parameters, %d was given.", argCount);
         return DOUBLE_VAL(0.0);
     }
-    return DOUBLE_VAL(clock_());
+    return DOUBLE_VAL((double)(clock()/CLOCKS_PER_SEC));
 }
 Value sysExitNative(int argCount, Value* args){
     if(argCount != 1){
@@ -172,12 +181,13 @@ Value sysExitNative(int argCount, Value* args){
         return NIL_VAL;
     }
     if(IS_INT(args[0])){
-        sysExit(AS_INT(args[0]));
+        sys_exit(AS_INT(args[0]));
         return NIL_VAL;
     } else {
         return NIL_VAL;
     }
 }
+/*
 Value asDoubleNative(int argCount, Value* args){
     if(argCount != 1){
         fprintf(stderr, "as_double() only accepts 1 parameter, %d was given", argCount);
@@ -198,9 +208,22 @@ Value asStrNative(int argCount, Value* args){
         fprintf(stderr, "as_string() only accepts 1 parameter, %d was given", argCount);
         return NIL_VAL;
     }
-    printf("Still needs to be done");
-    return NIL_VAL;
+    if(IS_INT(args[0])) {
+        char* str = as_str(AS_INT(args[0]), NULL, NULL);
+        return OBJ_VAL(copyString(str, strlen(str)));
+    } else if (IS_DOUBLE(args[0])){
+        char* str = as_str(NULL, AS_DOUBLE(args[0]), NULL);
+        return OBJ_VAL(copyString(str, strlen(str)));
+    } else if (IS_BOOL(args[0])){
+        char* str = as_str( (void*)0,NULL,(uint32_t)AS_BOOL(args[0]));
+        return OBJ_VAL(copyString(str, strlen(str)));
+    } else if(IS_STRING(args[0])){
+        return args[0];
+    } else {
+        return NIL_VAL;
+    }
 }
+*/
 
 Value charAtNative(int argCount, Value* args){
     if(argCount != 2){
@@ -245,7 +268,7 @@ Value trimNative(int argCount, Value* args){
 
     } else {
         fprintf(stderr, "trim() only accepts string values.");
-        return INT_VAL(0);
+        return NIL_VAL;
     }
 }
 Value subStrNative(int argCount, Value* args){

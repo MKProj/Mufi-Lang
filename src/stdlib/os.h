@@ -2,8 +2,6 @@
 #define mufi_stdlib_os_h
 
 void cmd_(const char* command);
-double clock_();
-void sysExit(int code);
-
+void sys_exit(int code);
 
 #endif

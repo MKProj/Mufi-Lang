@@ -8,7 +8,6 @@ description = "Mufi Compiler using Rust FFI bindings, only used for benchmarking
 
 [dependencies]
 
-
 [build-dependencies]
 cc = "1.0.73"
 bindgen = "0.60.1"

@@ -4,7 +4,7 @@ fun fib(n) {
 }
 
 
-fib(20);
+fib(5);
 
 
 

@@ -2,6 +2,6 @@
 
 ## List of Modules
 - ### [OS](./os.md)
-- ### [CONV](./conv.md)
 - ### [FILES](./files.md)
+- ### [STRING](./string.md)
 - ### [MATH](./math.md)

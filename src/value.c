@@ -61,6 +61,7 @@ bool valuesEqual(Value a, Value b){
         case VAL_OBJ: {
             return AS_OBJ(a) == AS_OBJ(b);
         }
-        default: false; // unreachable
+        default: return false; // unreachable
     }
+    return false;
 }

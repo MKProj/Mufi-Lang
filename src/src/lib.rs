@@ -1,6 +1,6 @@
 mod bindings;
 use std::ffi::CString;
-use bindings::{runFile, initVM, freeVM};
+use bindings::{runFile, initVM, freeVM, MINOR, PATCH, MAJOR};
 
 
 pub fn compile(path: &str){
@@ -11,4 +11,9 @@ pub fn compile(path: &str){
         runFile(raw);
         freeVM();
     }
+}
+
+
+pub fn version() -> String{
+    format!("Mufi Version {}.{}.{}", MAJOR, MINOR, PATCH)
 }

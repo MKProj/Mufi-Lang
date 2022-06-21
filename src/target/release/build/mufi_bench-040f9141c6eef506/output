@@ -1,5 +1,3 @@
-cargo:rustc-rerun-if-changed=.
-cargo:rustc-link-search=.
 TARGET = Some("x86_64-unknown-linux-gnu")
 OPT_LEVEL = Some("3")
 HOST = Some("x86_64-unknown-linux-gnu")
@@ -14,71 +12,71 @@ CFLAGS = None
 CRATE_CC_NO_DEFAULTS = None
 DEBUG = Some("false")
 CARGO_CFG_TARGET_FEATURE = Some("fxsr,sse,sse2")
-running: "cc" "-O3" "-ffunction-sections" "-fdata-sections" "-fPIC" "-m64" "-Wall" "-Wextra" "-o" "./chunk.o" "-c" "chunk.c"
+running: "cc" "-O3" "-ffunction-sections" "-fdata-sections" "-fPIC" "-m64" "-I" "." "-Wall" "-Wextra" "-o" "./chunk.o" "-c" "chunk.c"
 exit status: 0
-running: "cc" "-O3" "-ffunction-sections" "-fdata-sections" "-fPIC" "-m64" "-Wall" "-Wextra" "-o" "./compiler.o" "-c" "compiler.c"
+running: "cc" "-O3" "-ffunction-sections" "-fdata-sections" "-fPIC" "-m64" "-I" "." "-Wall" "-Wextra" "-o" "./compiler.o" "-c" "compiler.c"
 cargo:warning=compiler.c: In function ‘and_’:
-cargo:warning=compiler.c:361:23: warning: unused parameter ‘canAssign’ [-Wunused-parameter]
-cargo:warning=  361 | static void and_(bool canAssign) {
+cargo:warning=compiler.c:372:23: warning: unused parameter ‘canAssign’ [-Wunused-parameter]
+cargo:warning=  372 | static void and_(bool canAssign) {
 cargo:warning=      |                       ^
 cargo:warning=compiler.c: In function ‘binary’:
-cargo:warning=compiler.c:369:25: warning: unused parameter ‘canAssign’ [-Wunused-parameter]
-cargo:warning=  369 | static void binary(bool canAssign) {
+cargo:warning=compiler.c:380:25: warning: unused parameter ‘canAssign’ [-Wunused-parameter]
+cargo:warning=  380 | static void binary(bool canAssign) {
 cargo:warning=      |                         ^
 cargo:warning=compiler.c: In function ‘call’:
-cargo:warning=compiler.c:388:23: warning: unused parameter ‘canAssign’ [-Wunused-parameter]
-cargo:warning=  388 | static void call(bool canAssign) {
+cargo:warning=compiler.c:399:23: warning: unused parameter ‘canAssign’ [-Wunused-parameter]
+cargo:warning=  399 | static void call(bool canAssign) {
 cargo:warning=      |                       ^
 cargo:warning=compiler.c: In function ‘literal’:
-cargo:warning=compiler.c:404:26: warning: unused parameter ‘canAssign’ [-Wunused-parameter]
-cargo:warning=  404 | static void literal(bool canAssign) {
+cargo:warning=compiler.c:420:26: warning: unused parameter ‘canAssign’ [-Wunused-parameter]
+cargo:warning=  420 | static void literal(bool canAssign) {
 cargo:warning=      |                          ^
 cargo:warning=compiler.c: In function ‘grouping’:
-cargo:warning=compiler.c:412:27: warning: unused parameter ‘canAssign’ [-Wunused-parameter]
-cargo:warning=  412 | static void grouping(bool canAssign) {
+cargo:warning=compiler.c:428:27: warning: unused parameter ‘canAssign’ [-Wunused-parameter]
+cargo:warning=  428 | static void grouping(bool canAssign) {
 cargo:warning=      |                           ^
 cargo:warning=compiler.c: In function ‘number’:
-cargo:warning=compiler.c:418:25: warning: unused parameter ‘canAssign’ [-Wunused-parameter]
-cargo:warning=  418 | static void number(bool canAssign) {
+cargo:warning=compiler.c:434:25: warning: unused parameter ‘canAssign’ [-Wunused-parameter]
+cargo:warning=  434 | static void number(bool canAssign) {
 cargo:warning=      |                         ^
 cargo:warning=compiler.c: In function ‘or_’:
-cargo:warning=compiler.c:428:22: warning: unused parameter ‘canAssign’ [-Wunused-parameter]
-cargo:warning=  428 | static void or_(bool canAssign) {
+cargo:warning=compiler.c:444:22: warning: unused parameter ‘canAssign’ [-Wunused-parameter]
+cargo:warning=  444 | static void or_(bool canAssign) {
 cargo:warning=      |                      ^
 cargo:warning=compiler.c: In function ‘string’:
-cargo:warning=compiler.c:438:25: warning: unused parameter ‘canAssign’ [-Wunused-parameter]
-cargo:warning=  438 | static void string(bool canAssign) {
+cargo:warning=compiler.c:454:25: warning: unused parameter ‘canAssign’ [-Wunused-parameter]
+cargo:warning=  454 | static void string(bool canAssign) {
+cargo:warning=      |                         ^
+cargo:warning=compiler.c: In function ‘super_’:
+cargo:warning=compiler.c:491:25: warning: unused parameter ‘canAssign’ [-Wunused-parameter]
+cargo:warning=  491 | static void super_(bool canAssign){
 cargo:warning=      |                         ^
 cargo:warning=compiler.c: In function ‘self_’:
-cargo:warning=compiler.c:468:24: warning: unused parameter ‘canAssign’ [-Wunused-parameter]
-cargo:warning=  468 | static void self_(bool canAssign){
+cargo:warning=compiler.c:513:24: warning: unused parameter ‘canAssign’ [-Wunused-parameter]
+cargo:warning=  513 | static void self_(bool canAssign){
 cargo:warning=      |                        ^
 cargo:warning=compiler.c: In function ‘unary’:
-cargo:warning=compiler.c:472:24: warning: unused parameter ‘canAssign’ [-Wunused-parameter]
-cargo:warning=  472 | static void unary(bool canAssign) {
+cargo:warning=compiler.c:521:24: warning: unused parameter ‘canAssign’ [-Wunused-parameter]
+cargo:warning=  521 | static void unary(bool canAssign) {
 cargo:warning=      |                        ^
 exit status: 0
-running: "cc" "-O3" "-ffunction-sections" "-fdata-sections" "-fPIC" "-m64" "-Wall" "-Wextra" "-o" "./debug.o" "-c" "debug.c"
+running: "cc" "-O3" "-ffunction-sections" "-fdata-sections" "-fPIC" "-m64" "-I" "." "-Wall" "-Wextra" "-o" "./debug.o" "-c" "debug.c"
 exit status: 0
-running: "cc" "-O3" "-ffunction-sections" "-fdata-sections" "-fPIC" "-m64" "-Wall" "-Wextra" "-o" "./memory.o" "-c" "memory.c"
+running: "cc" "-O3" "-ffunction-sections" "-fdata-sections" "-fPIC" "-m64" "-I" "." "-Wall" "-Wextra" "-o" "./memory.o" "-c" "memory.c"
 exit status: 0
-running: "cc" "-O3" "-ffunction-sections" "-fdata-sections" "-fPIC" "-m64" "-Wall" "-Wextra" "-o" "./pre.o" "-c" "pre.c"
+running: "cc" "-O3" "-ffunction-sections" "-fdata-sections" "-fPIC" "-m64" "-I" "." "-Wall" "-Wextra" "-o" "./pre.o" "-c" "pre.c"
 exit status: 0
-running: "cc" "-O3" "-ffunction-sections" "-fdata-sections" "-fPIC" "-m64" "-Wall" "-Wextra" "-o" "./object.o" "-c" "object.c"
+running: "cc" "-O3" "-ffunction-sections" "-fdata-sections" "-fPIC" "-m64" "-I" "." "-Wall" "-Wextra" "-o" "./object.o" "-c" "object.c"
 exit status: 0
-running: "cc" "-O3" "-ffunction-sections" "-fdata-sections" "-fPIC" "-m64" "-Wall" "-Wextra" "-o" "./scanner.o" "-c" "scanner.c"
+running: "cc" "-O3" "-ffunction-sections" "-fdata-sections" "-fPIC" "-m64" "-I" "." "-Wall" "-Wextra" "-o" "./scanner.o" "-c" "scanner.c"
 exit status: 0
-running: "cc" "-O3" "-ffunction-sections" "-fdata-sections" "-fPIC" "-m64" "-Wall" "-Wextra" "-o" "./table.o" "-c" "table.c"
+running: "cc" "-O3" "-ffunction-sections" "-fdata-sections" "-fPIC" "-m64" "-I" "." "-Wall" "-Wextra" "-o" "./table.o" "-c" "table.c"
 exit status: 0
-running: "cc" "-O3" "-ffunction-sections" "-fdata-sections" "-fPIC" "-m64" "-Wall" "-Wextra" "-o" "./value.o" "-c" "value.c"
-cargo:warning=value.c: In function ‘valuesEqual’:
-cargo:warning=value.c:66:1: warning: control reaches end of non-void function [-Wreturn-type]
-cargo:warning=   66 | }
-cargo:warning=      | ^
+running: "cc" "-O3" "-ffunction-sections" "-fdata-sections" "-fPIC" "-m64" "-I" "." "-Wall" "-Wextra" "-o" "./value.o" "-c" "value.c"
 exit status: 0
-running: "cc" "-O3" "-ffunction-sections" "-fdata-sections" "-fPIC" "-m64" "-Wall" "-Wextra" "-o" "./vm_bench.o" "-c" "vm_bench.c"
-cargo:warning=vm_bench.c:48:13: warning: ‘defineNative’ defined but not used [-Wunused-function]
-cargo:warning=   48 | static void defineNative(const char* name, NativeFn function) {
+running: "cc" "-O3" "-ffunction-sections" "-fdata-sections" "-fPIC" "-m64" "-I" "." "-Wall" "-Wextra" "-o" "./vm_bench.o" "-c" "vm_bench.c"
+cargo:warning=vm_bench.c:45:13: warning: ‘defineNative’ defined but not used [-Wunused-function]
+cargo:warning=   45 | static void defineNative(const char* name, NativeFn function) {
 cargo:warning=      |             ^~~~~~~~~~~~
 exit status: 0
 AR_x86_64-unknown-linux-gnu = None

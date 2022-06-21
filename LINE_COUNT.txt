@@ -1,17 +1,17 @@
 This file contains lines for each of the C programs and their headers.
     45 src/chunk.c
-   824 src/compiler.c
-   136 src/debug.c
+   909 src/compiler.c
+   153 src/debug.c
     26 src/main.c
-   230 src/memory.c
+   231 src/memory.c
    160 src/object.c
-    53 src/pre.c
+    91 src/pre.c
    204 src/scanner.c
    144 src/table.c
-    65 src/value.c
-   527 src/vm.c
-   509 src/vm_bench.c
-    61 src/chunk.h
+    66 src/value.c
+   606 src/vm.c
+   583 src/vm_bench.c
+    65 src/chunk.h
     23 src/common.h
      9 src/compiler.h
     11 src/debug.h
@@ -21,16 +21,13 @@ This file contains lines for each of the C programs and their headers.
     32 src/scanner.h
     39 src/table.h
     60 src/value.h
-    58 src/vm.h
-    94 src/stdlib/conv.c
-    55 src/stdlib/files.c
-    36 src/stdlib/math_.c
-    14 src/stdlib/os.c
-   262 src/stdlib/stdlib.c
-     9 src/stdlib/conv.h
-    11 src/stdlib/files.h
-    25 src/stdlib/math_.h
-     8 src/stdlib/os.h
-    45 src/stdlib/stdlib.h
-    15 src/stdlib/string.h
-  3961 total
+    59 src/vm.h
+   285 src/stdlib/stdlib.c
+   122 mufi_stdlib/src/lib.rs
+  4686 src/src/bindings.rs
+    19 src/src/lib.rs
+    13 src/benches/mufi_benchmark.rs
+    55 utils/debug_prod.py
+    44 utils/setup.py
+    10 utils/test.py
+  8921 total

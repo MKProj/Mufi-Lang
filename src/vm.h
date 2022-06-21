@@ -26,6 +26,7 @@ typedef struct {
     Value* stackTop; // Top of the stack, always point to where the next item should be pushed
     Table globals; // Hash table of all global variables inside the program
     Table strings; // Hash table of all strings in heap
+    ObjString* initString;
     ObjUpvalue* openUpvalues; // open up values inside of closures
     size_t bytesAllocated; // bytes allocated by the vm
     size_t nextGC; // threshold for the garbage collector to be invoked

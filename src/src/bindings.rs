@@ -3057,25 +3057,29 @@ pub const OpCode_OP_GET_UPVALUE: OpCode = 10;
 pub const OpCode_OP_SET_UPVALUE: OpCode = 11;
 pub const OpCode_OP_GET_PROPERTY: OpCode = 12;
 pub const OpCode_OP_SET_PROPERTY: OpCode = 13;
-pub const OpCode_OP_EQUAL: OpCode = 14;
-pub const OpCode_OP_GREATER: OpCode = 15;
-pub const OpCode_OP_LESS: OpCode = 16;
-pub const OpCode_OP_ADD: OpCode = 17;
-pub const OpCode_OP_SUBTRACT: OpCode = 18;
-pub const OpCode_OP_MULTIPLY: OpCode = 19;
-pub const OpCode_OP_DIVIDE: OpCode = 20;
-pub const OpCode_OP_NOT: OpCode = 21;
-pub const OpCode_OP_NEGATE: OpCode = 22;
-pub const OpCode_OP_PRINT: OpCode = 23;
-pub const OpCode_OP_JUMP: OpCode = 24;
-pub const OpCode_OP_JUMP_IF_FALSE: OpCode = 25;
-pub const OpCode_OP_LOOP: OpCode = 26;
-pub const OpCode_OP_CALL: OpCode = 27;
-pub const OpCode_OP_CLOSURE: OpCode = 28;
-pub const OpCode_OP_CLOSE_UPVALUE: OpCode = 29;
-pub const OpCode_OP_RETURN: OpCode = 30;
-pub const OpCode_OP_CLASS: OpCode = 31;
-pub const OpCode_OP_METHOD: OpCode = 32;
+pub const OpCode_OP_GET_SUPER: OpCode = 14;
+pub const OpCode_OP_EQUAL: OpCode = 15;
+pub const OpCode_OP_GREATER: OpCode = 16;
+pub const OpCode_OP_LESS: OpCode = 17;
+pub const OpCode_OP_ADD: OpCode = 18;
+pub const OpCode_OP_SUBTRACT: OpCode = 19;
+pub const OpCode_OP_MULTIPLY: OpCode = 20;
+pub const OpCode_OP_DIVIDE: OpCode = 21;
+pub const OpCode_OP_NOT: OpCode = 22;
+pub const OpCode_OP_NEGATE: OpCode = 23;
+pub const OpCode_OP_PRINT: OpCode = 24;
+pub const OpCode_OP_JUMP: OpCode = 25;
+pub const OpCode_OP_JUMP_IF_FALSE: OpCode = 26;
+pub const OpCode_OP_LOOP: OpCode = 27;
+pub const OpCode_OP_CALL: OpCode = 28;
+pub const OpCode_OP_INVOKE: OpCode = 29;
+pub const OpCode_OP_SUPER_INVOKE: OpCode = 30;
+pub const OpCode_OP_CLOSURE: OpCode = 31;
+pub const OpCode_OP_CLOSE_UPVALUE: OpCode = 32;
+pub const OpCode_OP_RETURN: OpCode = 33;
+pub const OpCode_OP_CLASS: OpCode = 34;
+pub const OpCode_OP_INHERIT: OpCode = 35;
+pub const OpCode_OP_METHOD: OpCode = 36;
 pub type OpCode = ::std::os::raw::c_uint;
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -4198,6 +4202,7 @@ pub struct VM {
     pub stackTop: *mut Value,
     pub globals: Table,
     pub strings: Table,
+    pub initString: *mut ObjString,
     pub openUpvalues: *mut ObjUpvalue,
     pub bytesAllocated: size_t,
     pub nextGC: size_t,
@@ -4210,7 +4215,7 @@ pub struct VM {
 fn bindgen_test_layout_VM() {
     assert_eq!(
         ::std::mem::size_of::<VM>(),
-        263792usize,
+        263800usize,
         concat!("Size of: ", stringify!(VM))
     );
     assert_eq!(
@@ -4339,6 +4344,23 @@ fn bindgen_test_layout_VM() {
         );
     }
     test_field_strings();
+    fn test_field_initString() {
+        assert_eq!(
+            unsafe {
+                let uninit = ::std::mem::MaybeUninit::<VM>::uninit();
+                let ptr = uninit.as_ptr();
+                ::std::ptr::addr_of!((*ptr).initString) as usize - ptr as usize
+            },
+            263744usize,
+            concat!(
+                "Offset of field: ",
+                stringify!(VM),
+                "::",
+                stringify!(initString)
+            )
+        );
+    }
+    test_field_initString();
     fn test_field_openUpvalues() {
         assert_eq!(
             unsafe {
@@ -4346,7 +4368,7 @@ fn bindgen_test_layout_VM() {
                 let ptr = uninit.as_ptr();
                 ::std::ptr::addr_of!((*ptr).openUpvalues) as usize - ptr as usize
             },
-            263744usize,
+            263752usize,
             concat!(
                 "Offset of field: ",
                 stringify!(VM),
@@ -4363,7 +4385,7 @@ fn bindgen_test_layout_VM() {
                 let ptr = uninit.as_ptr();
                 ::std::ptr::addr_of!((*ptr).bytesAllocated) as usize - ptr as usize
             },
-            263752usize,
+            263760usize,
             concat!(
                 "Offset of field: ",
                 stringify!(VM),
@@ -4380,7 +4402,7 @@ fn bindgen_test_layout_VM() {
                 let ptr = uninit.as_ptr();
                 ::std::ptr::addr_of!((*ptr).nextGC) as usize - ptr as usize
             },
-            263760usize,
+            263768usize,
             concat!(
                 "Offset of field: ",
                 stringify!(VM),
@@ -4397,7 +4419,7 @@ fn bindgen_test_layout_VM() {
                 let ptr = uninit.as_ptr();
                 ::std::ptr::addr_of!((*ptr).objects) as usize - ptr as usize
             },
-            263768usize,
+            263776usize,
             concat!(
                 "Offset of field: ",
                 stringify!(VM),
@@ -4414,7 +4436,7 @@ fn bindgen_test_layout_VM() {
                 let ptr = uninit.as_ptr();
                 ::std::ptr::addr_of!((*ptr).grayCount) as usize - ptr as usize
             },
-            263776usize,
+            263784usize,
             concat!(
                 "Offset of field: ",
                 stringify!(VM),
@@ -4431,7 +4453,7 @@ fn bindgen_test_layout_VM() {
                 let ptr = uninit.as_ptr();
                 ::std::ptr::addr_of!((*ptr).grayCapacity) as usize - ptr as usize
             },
-            263780usize,
+            263788usize,
             concat!(
                 "Offset of field: ",
                 stringify!(VM),
@@ -4448,7 +4470,7 @@ fn bindgen_test_layout_VM() {
                 let ptr = uninit.as_ptr();
                 ::std::ptr::addr_of!((*ptr).grayStack) as usize - ptr as usize
             },
-            263784usize,
+            263792usize,
             concat!(
                 "Offset of field: ",
                 stringify!(VM),

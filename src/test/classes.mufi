@@ -1,0 +1,25 @@
+// Nothing is actually twice
+// I'm just tired
+class Twice{
+    twice(a, b){
+        return 2*(a + b);
+    }
+}
+
+class FibTwice < Twice{
+    init(a, b){
+        self.a = a;
+        self.b = b;
+    }
+    fib(n) {
+      if (n < 2) return n;
+      return self.fib(n - 2) + self.fib(n - 1);
+    }
+    twiceFib(n){
+        var num = n + super.twice(self.a, self.b);
+        return self.fib(num);
+    }
+}
+
+var ft = FibTwice(5, 4);
+ft.twiceFib(8);

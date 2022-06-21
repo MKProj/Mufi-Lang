@@ -1,10 +1,13 @@
-#include "pre.h"
 #include <stdio.h>
+#include <string.h>
+#include <regex.h>
+#include "pre.h"
 #include "common.h"
 #include "chunk.h"
 #include "debug.h"
 #include "vm.h"
 //> Mufi read-eval-print-loop function
+
 void repl(){
     char line [1024];
     VERSION();
@@ -42,6 +45,41 @@ char* readFile(const char* path){
     fclose(file);
     return buffer;
 }
+
+
+int matchUse(char* textToCheck) {
+    regex_t compiledRegex;
+    int reti;
+    int actualReturnValue = -1;
+    char messageBuffer[100];
+
+    /* Compile regular expression */
+    reti = regcomp(&compiledRegex, "^use <[a-zA-Z]+>$", REG_EXTENDED | REG_ICASE);
+    if (reti) {
+        fprintf(stderr, "Could not compile regex\n");
+        return -2;
+    }
+
+    /* Execute compiled regular expression */
+    reti = regexec(&compiledRegex, textToCheck, 0, NULL, 0);
+    if (!reti) {
+        // match
+        actualReturnValue = 0;
+    } else if (reti == REG_NOMATCH) {
+        // no match
+        actualReturnValue = 1;
+    } else {
+        // error
+        regerror(reti, &compiledRegex, messageBuffer, sizeof(messageBuffer));
+        fprintf(stderr, "Regex match failed: %s\n", messageBuffer);
+        actualReturnValue = -3;
+    }
+
+    /* Free memory allocated to the pattern buffer by regcomp() */
+    regfree(&compiledRegex);
+    return actualReturnValue;
+}
+
 
 //> Runs the source code of a file
 void runFile(const char* path){

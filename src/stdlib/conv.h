@@ -5,6 +5,5 @@
 
 double asDouble(Value value);
 int asInt(Value value);
-char* asStr(Value value);
 
 #endif

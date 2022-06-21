@@ -19,7 +19,7 @@ const MOD_TEMPLATE: &str = r#"# **{module}**
 
 const TEMPLATE: &str = r#"
 ---
-## <a id="{function}">*{function}*</a>
+## *{function}*
 > {description}
 
 ### Example:
@@ -115,26 +115,30 @@ impl Function{
 fn main() {
     //let string_path = TOML_PATH.join("string.toml");
     let os_path = TOML_PATH().join("os.toml");
-    let conv_path = TOML_PATH().join("conv.toml");
+   // let conv_path = TOML_PATH().join("conv.toml");
+    let string_path = TOML_PATH().join("string.toml");
     let files_path = TOML_PATH().join("files.toml");
     let math_path = TOML_PATH().join("math.toml");
 
     let os_mod = Module::get(os_path);
-    let conv_mod = Module::get(conv_path);
+    //let conv_mod = Module::get(conv_path);
     let files_mod = Module::get(files_path);
+    let string_mod = Module::get(string_path);
     let math_mod = Module::get(math_path);
 
     let mut index = File::create(OUT_PATH().join("index.md")).unwrap();
     let mut os_file = File::create(OUT_PATH().join("os.md")).unwrap();
-    let mut conv_file = File::create(OUT_PATH().join("conv.md")).unwrap();
+    //let mut conv_file = File::create(OUT_PATH().join("conv.md")).unwrap();
     let mut files_file = File::create(OUT_PATH().join("files.md")).unwrap();
+    let mut string_file = File::create(OUT_PATH().join("string.md")).unwrap();
     let mut math_file = File::create(OUT_PATH().join("math.md")).unwrap();
 
-    let root_mod = RootModule::new(vec![os_mod.clone(), conv_mod.clone(), files_mod.clone(), math_mod.clone()]);
+    let root_mod = RootModule::new(vec![os_mod.clone(), files_mod.clone(), string_mod.clone(),  math_mod.clone()]);
 
     index.write_all(root_mod.combine().as_bytes()).unwrap();
     os_file.write_all(os_mod.combine().as_bytes()).unwrap();
-    conv_file.write_all(conv_mod.combine().as_bytes()).unwrap();
+    //conv_file.write_all(conv_mod.combine().as_bytes()).unwrap();
+    string_file.write_all(string_mod.combine().as_bytes()).unwrap();
     files_file.write_all(files_mod.combine().as_bytes()).unwrap();
     math_file.write_all(math_mod.combine().as_bytes()).unwrap();
 

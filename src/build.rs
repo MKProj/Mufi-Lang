@@ -1,10 +1,11 @@
 use std::path::PathBuf;
 
 fn main(){
-    println!("cargo:rustc-rerun-if-changed=.");
-    println!("cargo:rustc-link-search=.");
+    //println!("cargo:rustc-rerun-if-changed=.");
+   // println!("cargo:rustc-link-search=.");
 
     cc::Build::new()
+        .include(".")
         .file("chunk.c")
         .file("compiler.c")
         .file("debug.c")
