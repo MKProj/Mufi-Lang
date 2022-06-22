@@ -3,14 +3,24 @@
 # Mufi Lang 
 
 [Mufi Roadmap Plan](https://www.notion.so/mkproj/a0ce104710f546d5aea1b0ec70995b73?v=ef7b2a18763b4e228c9f389f765965b1)
-
-> Note: This project is currently being developed and is changing quite often, it is not recommended 
-> to be installed until it reaches a stable state which is approximately coming in 1-2 months. 
-
 > This project is under the [GPLv2 License](./LICENSE.md)
 ## Installation Requirements 
+- clang 
+- Rust
 
-A list of installation dependencies will be available once ready.
+Install Steps: 
+```shell
+$ wget https://github.com/MKProj/Mufi-Lang/archive/refs/tags/0.1.0.zip
+$ unzip 0.1.0.zip
+$ cd Mufi-Lang-0.1.0
+$ make install 
+# Test to see if it's correct 
+$ mufi version 
+Version 0.1.0 (Baloo Release)
+```
+
+> Note: This language only supports Unix systems, if you're on a Windows system, use WSL. 
+> Documentation will come in the near future 
 
 ## Making Debug and Release Mode 
 
